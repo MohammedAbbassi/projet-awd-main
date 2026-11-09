@@ -4,55 +4,66 @@ skinparam packageStyle rectangle
 skinparam roundcorner 8
 skinparam shadowing false
 skinparam actorStyle awesome
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam dpi 200
+
+skinparam usecase {
+  BackgroundColor #F8FAFC
+  BorderColor #2B6CB0
+  ArrowColor #2D3748
+}
 
 actor "Client (Acheteur)" as Client
 actor "Marchand" as Marchand
-actor "Administrateur" as Admin
 
 rectangle "Plateforme OmniShop" {
-  ' Cas d'utilisation d'authentification
-  usecase "S'authentifier" as UC_Auth
-  
-  ' Cas d'utilisation Client
-  usecase "Rechercher des produits" as UC_Search
-  usecase "Gérer son panier" as UC_Cart
-  usecase "Passer une commande" as UC_Order
-  usecase "Payer la commande" as UC_Pay
-  usecase "Suivre ses achats" as UC_Track
+  package "Espace Client" {
+    usecase "Rechercher des produits" as UC_Search
+    usecase "Gérer son panier" as UC_Cart
+    usecase "Passer une commande" as UC_Order
+    usecase "Payer la commande" as UC_Pay
+    usecase "Suivre ses achats" as UC_Track
+  }
 
-  ' Cas d'utilisation Marchand
-  usecase "Configurer sa boutique" as UC_Store
-  usecase "Gérer le catalogue\n(Stocks/Prix B2B-B2C)" as UC_Catalog
-  usecase "Traiter les commandes clients" as UC_ProcessOrder
-  usecase "Consulter les statistiques\n(Analytique)" as UC_Analytics
+  package "Administration & Sécurité" {
+    usecase "S'authentifier" as UC_Auth
+    usecase "Gérer les comptes utilisateurs" as UC_ManageUsers
+    usecase "Gérer les abonnements marchands" as UC_ManageSubs
+    usecase "Superviser la plateforme\n(Litiges)" as UC_Supervise
+  }
 
-  ' Cas d'utilisation Administrateur
-  usecase "Gérer les comptes utilisateurs" as UC_ManageUsers
-  usecase "Gérer les abonnements marchands" as UC_ManageSubs
-  usecase "Superviser la plateforme\n(Litiges)" as UC_Supervise
+  package "Espace Marchand" {
+    usecase "Configurer sa boutique" as UC_Store
+    usecase "Gérer le catalogue\n(Stocks/Prix B2B-B2C)" as UC_Catalog
+    usecase "Traiter les commandes clients" as UC_ProcessOrder
+    usecase "Consulter les statistiques\n(Analytique)" as UC_Analytics
+  }
 }
 
-' Relations Client (à gauche)
+actor "Administrateur" as Admin
+
+' Client a gauche
 Client --> UC_Auth
 Client --> UC_Search
 Client --> UC_Cart
 Client --> UC_Order
 Client --> UC_Track
 
-' Relation include entre Passer commande et Payer
-UC_Order ..> UC_Pay : <<include>>
+' Include
+UC_Order .[#2B6CB0].> UC_Pay : <<include>>
 
-' Relations Marchand (à droite)
+' Marchand a droite
+UC_Auth <-- Marchand
 UC_Store <-- Marchand
 UC_Catalog <-- Marchand
 UC_ProcessOrder <-- Marchand
 UC_Analytics <-- Marchand
-UC_Auth <-- Marchand
 
-' Relations Administrateur (en bas)
-Admin -up-> UC_Auth
-Admin -up-> UC_ManageUsers
-Admin -up-> UC_ManageSubs
-Admin -up-> UC_Supervise
+' Admin en bas
+Admin --> UC_Auth
+Admin --> UC_ManageUsers
+Admin --> UC_ManageSubs
+Admin --> UC_Supervise
 
 @enduml
