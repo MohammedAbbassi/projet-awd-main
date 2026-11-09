@@ -1,0 +1,115 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam dpi 200
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+
+skinparam class {
+  BackgroundColor #F8FAFC
+  BorderColor #2B6CB0
+  ArrowColor #2D3748
+  HeaderBackgroundColor #EBF8FF
+}
+
+title Microservice Auth & Identity (auth-user-service) - Diagramme de Classes
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum RoleName {
+  ROLE_CLIENT
+  ROLE_MERCHANT
+  ROLE_ADMIN
+}
+
+enum OAuthProvider {
+  GOOGLE
+  GITHUB
+}
+
+class User {
+  - id: UUID
+  - email: String
+  - passwordHash: String
+  - status: UserStatus
+  - isEmailVerified: Boolean
+  - createdAt: Instant
+  - updatedAt: Instant
+  - lastLoginAt: Instant
+  + verifyPassword(rawPassword: String): Boolean
+  + updatePassword(newPasswordHash: String): void
+  + hasRole(roleName: RoleName): Boolean
+  + activate(): void
+  + suspend(): void
+}
+
+class UserProfile {
+  - id: UUID
+  - firstName: String
+  - lastName: String
+  - phoneNumber: String
+  - avatarUrl: String
+  - companyName: String
+  - vatNumber: String
+  + getFullName(): String
+}
+
+class Role {
+  - id: Long
+  - name: RoleName
+  - description: String
+}
+
+class Permission {
+  - id: Long
+  - code: String
+  - description: String
+}
+
+class OAuthAccount {
+  - id: UUID
+  - provider: OAuthProvider
+  - providerUserId: String
+  - providerEmail: String
+  - linkedAt: Instant
+}
+
+class RefreshToken {
+  - id: UUID
+  - tokenHash: String
+  - expiresAt: Instant
+  - isRevoked: Boolean
+  - ipAddress: String
+  - userAgent: String
+  - createdAt: Instant
+  + isValid(): Boolean
+  + revoke(): void
+}
+
+User "1" *-- "1" UserProfile : contient >
+User "1" *-- "0..*" OAuthAccount : lie >
+User "1" *-- "0..*" RefreshToken : détient >
+User "*" }--{ "*" Role : possède >
+Role "*" }--{ "*" Permission : octroie >
+
+note right of RefreshToken
+  Stockage en base PostgreSQL
+  + Cache & validation rapide 
+  via Redis (TTL indexé)
+end note
+
+note bottom of User
+  Événements asynchrones émis :
+  - UserRegisteredEvent
+  - UserSuspendedEvent
+  - PasswordResetEvent
+end note
+
+@enduml

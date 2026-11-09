@@ -1,86 +1,34 @@
+import os
 import plantuml
 
-code = """@startuml
-left to right direction
-skinparam packageStyle rectangle
-skinparam roundcorner 8
-skinparam shadowing false
-skinparam actorStyle awesome
-skinparam defaultFontName Arial
-skinparam defaultFontSize 11
-skinparam dpi 200
+def render_all_diagrams():
+    diagrams_dir = os.path.dirname(os.path.abspath(__file__))
+    server_png = plantuml.PlantUML("https://www.plantuml.com/plantuml/img/")
+    server_svg = plantuml.PlantUML("https://www.plantuml.com/plantuml/svg/")
 
-skinparam usecase {
-  BackgroundColor #F8FAFC
-  BorderColor #2B6CB0
-  ArrowColor #2D3748
-}
+    puml_files = [f for f in os.listdir(diagrams_dir) if f.endswith(".puml")]
 
-actor "Client (Acheteur)" as Client
-actor "Marchand" as Marchand
+    for puml_file in puml_files:
+        puml_path = os.path.join(diagrams_dir, puml_file)
+        base_name = os.path.splitext(puml_file)[0]
+        png_path = os.path.join(diagrams_dir, f"{base_name}.png")
+        svg_path = os.path.join(diagrams_dir, f"{base_name}.svg")
 
-rectangle "Plateforme OmniShop" {
-  package "Espace Client" {
-    usecase "Rechercher des produits" as UC_Search
-    usecase "Gérer son panier" as UC_Cart
-    usecase "Passer une commande" as UC_Order
-    usecase "Payer la commande" as UC_Pay
-    usecase "Suivre ses achats" as UC_Track
-  }
+        with open(puml_path, "r", encoding="utf-8") as f:
+            code = f.read()
 
-  package "Administration & Sécurité" {
-    usecase "S'authentifier" as UC_Auth
-    usecase "Gérer les comptes utilisateurs" as UC_ManageUsers
-    usecase "Gérer les abonnements marchands" as UC_ManageSubs
-    usecase "Superviser la plateforme\\n(Litiges)" as UC_Supervise
-  }
+        try:
+            png_bytes = server_png.processes(code)
+            with open(png_path, "wb") as f:
+                f.write(png_bytes)
+            print(f"Rendered PNG: {base_name}.png")
 
-  package "Espace Marchand" {
-    usecase "Configurer sa boutique" as UC_Store
-    usecase "Gérer le catalogue\\n(Stocks/Prix B2B-B2C)" as UC_Catalog
-    usecase "Traiter les commandes clients" as UC_ProcessOrder
-    usecase "Consulter les statistiques\\n(Analytique)" as UC_Analytics
-  }
-}
+            svg_bytes = server_svg.processes(code)
+            with open(svg_path, "wb") as f:
+                f.write(svg_bytes)
+            print(f"Rendered SVG: {base_name}.svg")
+        except Exception as e:
+            print(f"Error rendering {puml_file}: {e}")
 
-actor "Administrateur" as Admin
-
-' Client a gauche
-Client --> UC_Auth
-Client --> UC_Search
-Client --> UC_Cart
-Client --> UC_Order
-Client --> UC_Track
-
-' Include
-UC_Order .[#2B6CB0].> UC_Pay : <<include>>
-
-' Marchand a droite
-UC_Auth <-- Marchand
-UC_Store <-- Marchand
-UC_Catalog <-- Marchand
-UC_ProcessOrder <-- Marchand
-UC_Analytics <-- Marchand
-
-' Admin en bas
-Admin --> UC_Auth
-Admin --> UC_ManageUsers
-Admin --> UC_ManageSubs
-Admin --> UC_Supervise
-
-@enduml"""
-
-server_png = plantuml.PlantUML("https://www.plantuml.com/plantuml/img/")
-png_b = server_png.processes(code)
-with open("Documentation/Diagrams/use_case_omnishop.png", "wb") as f:
-    f.write(png_b)
-
-server_svg = plantuml.PlantUML("https://www.plantuml.com/plantuml/svg/")
-svg_b = server_svg.processes(code)
-with open("Documentation/Diagrams/use_case_omnishop.svg", "wb") as f:
-    f.write(svg_b)
-
-with open("Documentation/Diagrams/use_case_omnishop.puml", "w", encoding="utf-8") as f:
-    f.write(code)
-
-print("Diagram generated!")
+if __name__ == "__main__":
+    render_all_diagrams()
