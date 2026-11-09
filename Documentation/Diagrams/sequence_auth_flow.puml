@@ -62,3 +62,4 @@ Gateway -> Gateway : Extrait userId et rôles, injecte headers "X-User-Id"
 Gateway -> "Order Service" : Transmet la requête sécurisée
 
 @enduml
+

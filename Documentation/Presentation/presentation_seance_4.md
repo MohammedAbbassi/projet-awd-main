@@ -135,3 +135,4 @@
 ### Slide 13 : Conclusion & Questions
 - Architecture découplée, évolutive et prête pour la phase d'implémentation.
 - Merci de votre attention — Place aux questions (10 minutes).
+

@@ -138,3 +138,4 @@ Le service publie des événements métiers diffusés via RabbitMQ :
 > *Pour répondre au besoin de cloisonnement strict entre nos profils — par exemple un acheteur particulier et un vendeur marchand qui disposent d'espaces et de droits totalement distincts — j'ai conçu un modèle d'autorisation **RBAC** robuste appuyé sur **PostgreSQL** pour l'intégrité relationnelle.*
 >
 > *Côté architecture, nous adoptons des jetons **JWT asymétriques RS256** couplés à des Refresh Tokens gérés en cache sous **Redis** pour permettre une révocation instantanée. Enfin, notre service communique de façon **stateless** avec l'API Gateway grâce au standard JWKS, et diffuse des événements asynchrones sur **RabbitMQ** comme l'événement `UserRegistered`, garantissant un découplage total avec les microservices métier."*
+
