@@ -1,0 +1,150 @@
+@startuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam dpi 250
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype ortho
+
+skinparam actor {
+  BackgroundColor #EBF8FF
+  BorderColor #2B6CB0
+}
+
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #2B6CB0
+  RoundCorner 8
+}
+
+skinparam database {
+  BackgroundColor #EDF2F7
+  BorderColor #4A5568
+}
+
+skinparam queue {
+  BackgroundColor #FEFCBF
+  BorderColor #D69E2E
+}
+
+skinparam cloud {
+  BackgroundColor #F7FAFC
+  BorderColor #A0AEC0
+}
+
+title Plateforme SaaS All-in-One — Diagramme d'Architecture Globale
+
+' 1. Acteurs
+package "Utilisateurs" {
+  actor "Débutant / Porteur" as User_Beginner
+  actor "Vendeur / Entrepreneur" as User_Seller
+  actor "Administrateur" as User_Admin
+}
+
+' 2. Frontend
+rectangle "Frontend Web Responsive" as Frontend #EBF8FF {
+  [Interface Utilisateur (React / Vue) : Espace Projet & Dashboard Vendeur] as WebApp
+}
+
+User_Beginner --> WebApp : HTTPS
+User_Seller --> WebApp : HTTPS
+User_Admin --> WebApp : HTTPS
+
+' 3. API Gateway
+rectangle "API Gateway (Point d'Entrée Unique)" as Gateway #BEE3F8 {
+  [Routage Dynamique • Authentification / Validation JWT • Rate Limiting] as APIGateway
+}
+
+WebApp --> APIGateway : Appels REST / HTTPS (/api/v1/*)
+
+' 4. Microservices Métier & Bases de Données
+rectangle "Services Métier Autonomes (Database per Service)" as ServicesLayer {
+
+  package "Membre 1 (IAM)" as M1 #F0FFF4 {
+    rectangle "Identity & Access\n(identity-service)" as Svc_Identity {
+      [Comptes, Profils,\nRôles & Sessions] as M_Identity
+    }
+    database "DB Identité\n(PostgreSQL / Redis)" as DB_Identity
+    Svc_Identity --> DB_Identity
+  }
+
+  package "Membre 2" as M2 {
+    rectangle "Startup Builder\n(startup-service)" as Svc_Startup {
+      [Idées, Objectifs,\nÉtapes & Tâches] as M_Startup
+    }
+    database "DB Startup\n(PostgreSQL)" as DB_Startup
+    Svc_Startup --> DB_Startup
+
+    rectangle "Brand Studio\n(brand-service)" as Svc_Brand {
+      [Identité, Couleurs,\nLogos & Assets] as M_Brand
+    }
+    database "DB Brand\n(PostgreSQL & S3)" as DB_Brand
+    Svc_Brand --> DB_Brand
+  }
+
+  package "Membre 3" as M3 {
+    rectangle "Commerce\n(store-service)" as Svc_Store {
+      [Boutiques, Catégories,\nFiches Produits & Prix] as M_Store
+    }
+    database "DB Commerce\n(PostgreSQL / MongoDB)" as DB_Store
+    Svc_Store --> DB_Store
+
+    rectangle "Operations\n(order-inventory-service)" as Svc_Ops {
+      [Commandes, Lignes,\nStocks & Alertes] as M_Ops
+    }
+    database "DB Opérations\n(PostgreSQL)" as DB_Ops
+    Svc_Ops --> DB_Ops
+  }
+
+  package "Membre 4" as M4 {
+    rectangle "Marketing\n(marketing-service)" as Svc_Marketing {
+      [Campagnes, Contenus,\nCalendrier Éditorial] as M_Marketing
+    }
+    database "DB Marketing\n(PostgreSQL)" as DB_Marketing
+    Svc_Marketing --> DB_Marketing
+
+    rectangle "Analytics & AI\n(analytics-ai-service)" as Svc_Analytics {
+      [Indicateurs, Métriques,\nAssistant IA Orchestrator] as M_Analytics
+    }
+    database "DB Analytics\n(PostgreSQL / Timescale)" as DB_Analytics
+    Svc_Analytics --> DB_Analytics
+  }
+}
+
+' Routage de la Gateway vers les Microservices
+APIGateway --> Svc_Identity : /api/v1/auth/* & /api/v1/users/*
+APIGateway --> Svc_Startup : /api/v1/projects/*
+APIGateway --> Svc_Brand : /api/v1/brands/*
+APIGateway --> Svc_Store : /api/v1/stores/* & /api/v1/products/*
+APIGateway --> Svc_Ops : /api/v1/orders/* & /api/v1/inventory/*
+APIGateway --> Svc_Marketing : /api/v1/campaigns/*
+APIGateway --> Svc_Analytics : /api/v1/analytics/* & /api/v1/assistant/*
+
+' 5. Bus d'Événements Asynchrones
+queue "Bus d'Événements Asynchrones (RabbitMQ / Apache Kafka)" as EventBus {
+  [Événements Métier :\nUserRegistered • ProjectCreated • BrandUpdated • ProductCreated • OrderCreated • OrderPaid • StockLow] as Events
+}
+
+' Connexions au Bus
+Svc_Identity ..> EventBus : Publie UserRegistered
+Svc_Brand ..> EventBus : Publie BrandUpdated
+Svc_Store ..> EventBus : Publie ProductCreated / Updated
+Svc_Ops ..> EventBus : Publie OrderCreated, OrderPaid, StockLow
+EventBus ..> Svc_Analytics : Consomme événements (Calcul métriques)
+EventBus ..> Svc_Startup : Consomme événements (Progression tâches)
+EventBus ..> Svc_Ops : Consomme commandes (Ajustement stock)
+
+' 6. Adaptateurs & Partenaires Externes
+cloud "Services & Partenaires Externes (Intégrations)" as ExternalCloud #EDF2F7 {
+  [Fournisseurs IA\n(OpenAI / Gemini API)] as Ext_AI
+  [Passerelles de Paiement\n(Stripe / Konnect / ClicToPay)] as Ext_Payment
+  [Transporteurs & Livraison] as Ext_Shipping
+  [Réseaux Sociaux\n(Instagram, Facebook, TikTok)] as Ext_Social
+}
+
+Svc_Analytics --> Ext_AI : Requêtes Assistant
+Svc_Ops --> Ext_Payment : Initialisation règlements
+Svc_Ops --> Ext_Shipping : Bordereaux d'expédition
+Svc_Marketing --> Ext_Social : Publications de contenu
+
+@enduml
