@@ -20,7 +20,7 @@ Une plateforme web SaaS B2B/B2C tout-en-un destinée aux personnes souhaitant la
 
 L'architecture suit le principe **Database per Service**, avec un point d'entrée unique via l'**API Gateway** et un bus d'événements asynchrones (**RabbitMQ / Kafka**) pour le découplage entre services :
 
-![Architecture Globale](Documentation/Diagrams/architecture_globale.png)
+![Architecture Globale](Documentation/Diagrams/architecture_globale.svg)
 
 ---
 
@@ -44,9 +44,9 @@ projet-awd-main/
 ├── Documentation/                         # Dossiers techniques, diagrammes & présentations
 │   ├── Dossier_Technique.md               # Document technique global (Rendu Blackboard)
 │   │
-│   ├── Diagrams/                          # Diagrammes UML & Architecture (PlantUML, PNG, SVG, PDF)
-│   │   ├── architecture_globale.*         # Diagramme d'architecture globale
-│   │   ├── use_case_global.*              # Diagramme de cas d'utilisation général
+│   ├── Diagrams/                          # Diagrammes UML & Architecture (SVG, PDF)
+│   │   ├── architecture_globale.svg       # Diagramme d'architecture globale
+│   │   ├── use_case_global.svg            # Diagramme de cas d'utilisation général
 │   │   ├── Diagramme_Cas_Utilisation.pdf  # Fiche explicative du cas d'utilisation
 │   │   └── ...                            # Diagrammes de classes & séquences par microservice
 │   │
@@ -69,6 +69,6 @@ projet-awd-main/
 
 ## Livrables de la Séance 4
 
-- **Diagramme d'Architecture Globale :** [`Documentation/Diagrams/architecture_globale.png`](Documentation/Diagrams/architecture_globale.png)
+- **Diagramme d'Architecture Globale :** [`Documentation/Diagrams/architecture_globale.svg`](Documentation/Diagrams/architecture_globale.svg)
 - **Dossier Technique Global :** [`Documentation/Dossier_Technique.md`](Documentation/Dossier_Technique.md)
 - **Diagramme de Cas d'Utilisation :** [`Documentation/Diagrams/Diagramme_Cas_Utilisation.pdf`](Documentation/Diagrams/Diagramme_Cas_Utilisation.pdf)

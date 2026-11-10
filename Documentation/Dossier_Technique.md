@@ -102,9 +102,9 @@ Utilisée pour diffuser un fait métier sans bloquer le service émetteur.
 
 Le schéma ci-dessous présente le Frontend, l'API Gateway, l'isolation des microservices et de leurs bases de données, le Bus d'événements et les intégrations externes :
 
-![Diagramme d'Architecture Globale](Diagrams/architecture_globale.png)
+![Diagramme d'Architecture Globale](Diagrams/architecture_globale.svg)
 
-*(Sources disponibles dans [`Documentation/Diagrams/architecture_globale.puml`](Diagrams/architecture_globale.puml) et [`architecture_globale.svg`](Diagrams/architecture_globale.svg))*
+*(Format vectoriel disponible dans [`Documentation/Diagrams/architecture_globale.svg`](Diagrams/architecture_globale.svg))*
 
 ---
 
