@@ -36,20 +36,21 @@ projet-awd-main/
 │   ├── store-service/                     # Boutiques & catalogue produits
 │   ├── order-inventory-service/           # Commandes, expéditions & stocks
 │   ├── marketing-service/                 # Campagnes & calendrier éditorial
-│   └── analytics-ai-service/              # Indicateurs de performance & assistant IA
+│   ├── analytics-service/                 # Agrégation des événements & indicateurs
+│   └── ai-assistant-service/              # Orchestrateur d'assistance IA
 │
 ├── Frontend/                              # Application Web Responsive (React / Vue / Angular)
 │
 ├── Documentation/                         # Dossiers techniques, diagrammes & présentations
 │   ├── Dossier_Technique.md               # Document technique global (Rendu Blackboard)
 │   │
-│   ├── Diagrams/                          # Diagrammes UML & Architecture (PlantUML, PNG, SVG)
+│   ├── Diagrams/                          # Diagrammes UML & Architecture (PlantUML, PNG, SVG, PDF)
 │   │   ├── architecture_globale.*         # Diagramme d'architecture globale
 │   │   ├── use_case_global.*              # Diagramme de cas d'utilisation général
+│   │   ├── Diagramme_Cas_Utilisation.pdf  # Fiche explicative du cas d'utilisation
 │   │   └── ...                            # Diagrammes de classes & séquences par microservice
 │   │
-│   └── Presentation/                      # Supports de soutenance orale
-│       └── presentation_seance_4.md       # Support de présentation (Partie groupe & individuelle)
+│   └── Presentation/                      # Supports de soutenance orale (Séance 4)
 │
 └── README.md                              # Documentation générale du dépôt
 ```
@@ -70,5 +71,4 @@ projet-awd-main/
 
 - **Diagramme d'Architecture Globale :** [`Documentation/Diagrams/architecture_globale.png`](Documentation/Diagrams/architecture_globale.png)
 - **Dossier Technique Global :** [`Documentation/Dossier_Technique.md`](Documentation/Dossier_Technique.md)
-- **Diagramme de Cas d'Utilisation :** [`Documentation/Diagramme_Cas_Utilisation.pdf`](Documentation/Diagramme_Cas_Utilisation.pdf)
-- **Support de Présentation :** [`Documentation/Presentation/presentation_seance_4.md`](Documentation/Presentation/presentation_seance_4.md)
+- **Diagramme de Cas d'Utilisation :** [`Documentation/Diagrams/Diagramme_Cas_Utilisation.pdf`](Documentation/Diagrams/Diagramme_Cas_Utilisation.pdf)
