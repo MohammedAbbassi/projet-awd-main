@@ -1,76 +1,74 @@
-# OmniShop — Plateforme E-Commerce Hybride B2B / B2C
-> **Projet AWD — Architecture Logicielle & Microservices (Validation Intermédiaire - Séance 4)**
+# Plateforme SaaS All-in-One pour Entrepreneurs et Vendeurs en Ligne
+> **Projet AWD — Architecture Orientée Microservices (Validation Intermédiaire — Séance 4)**
 
-Bienvenue sur le dépôt officiel du projet **OmniShop**. Cette plateforme e-commerce multi-acteurs est conçue selon une architecture orientée microservices moderne, résiliente et hautement disponible.
+Une plateforme web SaaS B2B/B2C tout-en-un destinée aux personnes souhaitant lancer une activité (porteurs de projet / débutants) et aux commerçants vendant déjà via les réseaux sociaux (Instagram, Facebook, TikTok). Elle centralise la structuration de projet, la création de marque, la boutique, les commandes, les stocks, le marketing, l'analytique et l'assistance IA.
 
 ---
 
-## 👥 Répartition de l'Équipe & Rôles
+## 👥 Répartition de l'Équipe & Responsabilités
 
-| Membre | Microservice Attribué | Responsabilités Clés |
+| Membre | Pôle & Microservices | Responsabilités Clés |
 | :--- | :--- | :--- |
-| **Membre 1** *(Lead IAM)* | **Identity & Access Service** | Inscription/connexion, OAuth2/OpenID Connect (Google, GitHub), RBAC, JWT (RS256) & sessions Redis |
-| **Membre 2** | **Catalog & Pricing Service** | Catalogue produits, gestion des stocks temps réel, double tarification (B2C TTC / B2B HT) |
-| **Membre 3** | **Order & Cart Service** | Gestion des paniers, passage de commande, flux de facturation et paiements sécurisés |
-| **Membre 4** | **Store & Merchant Service** | Configuration des boutiques marchandes, analytique vendeurs, gestion et modération des litiges |
-| **Équipe entière** | **Brique Commune Transverse** | Modèle de sécurité partagé, convention d'API REST, passerelle API Gateway et bus d'événements |
+| **Membre 1** | **Architecture & Identity** | Architecture globale, API Gateway, `identity-service` (inscription/connexion, profils, rôles RBAC, sécurité et sessions) |
+| **Membre 2** | **Startup & Brand** | `startup-service` (projets de création, objectifs, étapes, tâches) et `brand-service` (identité de marque, logos, ressources visuelles) |
+| **Membre 3** | **Store & Operations** | `store-service` (boutiques, catalogue produits, prix) et `order-inventory-service` (commandes, mouvements et alertes de stock) |
+| **Membre 4** | **Marketing, Analytics & AI** | `marketing-service` (campagnes, calendrier éditorial), `analytics-service` (indicateurs) et `ai-assistant-service` (assistant IA) |
 
 ---
 
-## 📐 Architecture & Modélisation du Système
+## 📐 Architecture Globale du Système
 
-### 1. Diagramme d'Architecture Globale
-L'application repose sur un découpage en microservices indépendants, protégés par une **API Gateway**, orchestrés par **Docker** et communiquant via des flux synchrones (REST/JWKS) et asynchrones (Message Broker **RabbitMQ**) :
+L'architecture suit le principe **Database per Service**, avec un point d'entrée unique via l'**API Gateway** et un bus d'événements asynchrones (**RabbitMQ / Kafka**) pour le découplage entre services :
 
-![Architecture Globale OmniShop](Documentation/Diagrams/architecture_globale_omnishop.png)
-
-### 2. Diagramme de Cas d'Utilisation Général
-Délimite le périmètre fonctionnel entre le **Client (Acheteur)**, le **Marchand (Vendeur)** et l'**Administrateur** :
-
-![Diagramme de Cas d'Utilisation](Documentation/Diagrams/use_case_omnishop.png)
+![Architecture Globale](Documentation/Diagrams/architecture_globale.png)
 
 ---
 
-## 🗂️ Organisation du Dépôt Git
-
-Conformément aux exigences de cadrage du projet AWD, le dépôt est structuré comme suit :
+## 🗂️ Organisation Générale du Dépôt Git
 
 ```
 projet-awd-main/
-├── Backend/                                    # Code source des microservices
-├── Frontend/                                   # Application cliente (Web / Mobile)
-├── Documentation/                              # Dossiers techniques et livrables
-│   ├── Dossier_Technique_OmniShop.md           # Dossier technique complet (Rendu Blackboard)
-│   ├── Fiche_Membre1_Identity_Access_Service.md# Spécification détaillée du microservice IAM
-│   ├── Diagramme_Cas_Utilisation_OmniShop.pdf  # Fiche PDF haute définition du cas d'utilisation
-│   ├── Fiche_Individuelle_Membre1_Identity_Access.pdf # Fiche individuelle 2 pages (Speech & API)
-│   │
-│   ├── Diagrams/                               # Fichiers sources PlantUML, PNG et SVG
-│   │   ├── architecture_globale_omnishop.*     # Diagramme d'architecture globale
-│   │   ├── class_diagram_auth_service.*        # Diagramme de classes IAM
-│   │   ├── sequence_auth_flow.*                # Diagramme de séquence (OAuth2 & Broker)
-│   │   └── use_case_omnishop.*                 # Diagramme de cas d'utilisation
-│   │
-│   └── Presentation/                           # Supports de soutenance orale
-│       └── presentation_seance_4.md            # Trame des slides (Groupe + 1 min par membre)
+├── Backend/                               # Code source des microservices & API Gateway
+│   ├── api-gateway/                       # Routage, authentification & limitation de débit
+│   ├── identity-service/                  # Comptes, profils, rôles & permissions
+│   ├── startup-service/                   # Projets de création, étapes & tâches
+│   ├── brand-service/                     # Identité de marque & gestion des médias
+│   ├── store-service/                     # Boutiques & catalogue produits
+│   ├── order-inventory-service/           # Commandes, expéditions & stocks
+│   ├── marketing-service/                 # Campagnes & calendrier éditorial
+│   └── analytics-ai-service/              # Indicateurs de performance & assistant IA
 │
-└── README.md                                   # Présentation générale du projet
+├── Frontend/                              # Application Web Responsive (React / Vue / Angular)
+│
+├── Documentation/                         # Dossiers techniques, diagrammes & présentations
+│   ├── Dossier_Technique.md               # Document technique global (Rendu Blackboard)
+│   │
+│   ├── Diagrams/                          # Diagrammes UML & Architecture (PlantUML, PNG, SVG)
+│   │   ├── architecture_globale.*         # Diagramme d'architecture globale
+│   │   ├── use_case_global.*              # Diagramme de cas d'utilisation général
+│   │   └── ...                            # Diagrammes de classes & séquences par microservice
+│   │
+│   └── Presentation/                      # Supports de soutenance orale
+│       └── presentation_seance_4.md       # Support de présentation (Partie groupe & individuelle)
+│
+└── README.md                              # Documentation générale du dépôt
 ```
 
 ---
 
-## 🚀 Livrables Clés pour la Séance 4
+## 🔄 Workflow Git
 
-- 📄 **Dossier Individuel Membre 1 (IAM) :** [`Documentation/Fiche_Individuelle_Membre1_Identity_Access.pdf`](Documentation/Fiche_Individuelle_Membre1_Identity_Access.pdf)
-- 📊 **Dossier Cas d'Utilisation Général :** [`Documentation/Diagramme_Cas_Utilisation_OmniShop.pdf`](Documentation/Diagramme_Cas_Utilisation_OmniShop.pdf)
-- 🖥️ **Support de Présentation Orale :** [`Documentation/Presentation/presentation_seance_4.md`](Documentation/Presentation/presentation_seance_4.md)
-- 📋 **Spécification Technique Complète :** [`Documentation/Dossier_Technique_OmniShop.md`](Documentation/Dossier_Technique_OmniShop.md)
+- **`main`** : Version stable et présentable.
+- **`develop`** : Intégration des fonctionnalités validées.
+- **`feature/<nom>`** : Développement d'une fonctionnalité ou d'un microservice.
+- **`fix/<nom>`** : Correction ciblée.
+- Chaque contribution passe par une **Pull Request**, une revue de code et des tests avant fusion.
 
 ---
 
-## 🔒 Sécurité & Contrôle d'Accès
+## 📄 Livrables de la Séance 4
 
-- **Authentification Hybride :** Identifiants locaux (hachage Argon2/BCrypt) + Fédération **OAuth2 / OpenID Connect** (Google, GitHub).
-- **Autorisation RBAC :** Contrôle d'accès basé sur les rôles (`ROLE_CLIENT`, `ROLE_MERCHANT`, `ROLE_ADMIN`).
-- **Validation Stateless :** Signature asymétrique RSA (RS256) validée directement par l'API Gateway via l'endpoint public `/.well-known/jwks.json`.
-- **Gestion des Sessions :** Couple Access Token court (15 min) + Refresh Token longue durée géré et révocable en temps réel sous **Redis**.
+- 🏗️ **Diagramme d'Architecture Globale :** [`Documentation/Diagrams/architecture_globale.png`](Documentation/Diagrams/architecture_globale.png)
+- 📋 **Dossier Technique Global :** [`Documentation/Dossier_Technique.md`](Documentation/Dossier_Technique.md)
+- 📊 **Diagramme de Cas d'Utilisation :** [`Documentation/Diagramme_Cas_Utilisation.pdf`](Documentation/Diagramme_Cas_Utilisation.pdf)
+- 🖥️ **Support de Présentation :** [`Documentation/Presentation/presentation_seance_4.md`](Documentation/Presentation/presentation_seance_4.md)

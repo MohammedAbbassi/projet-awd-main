@@ -1,14 +1,14 @@
 # Fiche Individuelle — Membre 1 : Identity & Access Service
 
 **Étudiant responsable :** Membre 1  
-**Projet :** Plateforme OmniShop (Projet AWD)  
+**Projet :** Plateforme SaaS All-in-One (Projet AWD)  
 **Livrable :** Validation Intermédiaire — Séance 4  
 
 ---
 
 ## 1. Mission & Périmètre du Microservice
 
-> **Mission centrale :** Gérer l'intégralité du cycle de vie des utilisateurs et sécuriser l'accès à l'ensemble de la plateforme OmniShop.
+> **Mission centrale :** Gérer l'intégralité du cycle de vie des utilisateurs et sécuriser l'accès à l'ensemble de la plateforme SaaS All-in-One.
 
 ### Responsabilités Métier :
 1. **Inscription et connexion :**
@@ -122,7 +122,7 @@ Le service publie des événements métiers diffusés via RabbitMQ :
 
 ### 4. Fédération OAuth2 / OpenID Connect
 - **`GET /api/v1/auth/oauth2/authorize/{provider}`** : Redirige l'utilisateur vers la page de consentement Google/GitHub.
-- **`GET /api/v1/auth/oauth2/callback/{provider}`** : Réception du code d'autorisation, échange avec le fournisseur et émission des tokens applicatifs OmniShop.
+- **`GET /api/v1/auth/oauth2/callback/{provider}`** : Réception du code d'autorisation, échange avec le fournisseur et émission des tokens applicatifs de la plateforme.
 
 ### 5. Clé Publique de Validation
 - **`GET /.well-known/jwks.json`** : Exposition standardisée des clés de signature publique pour l'API Gateway et les microservices internes.
@@ -131,7 +131,7 @@ Le service publie des événements métiers diffusés via RabbitMQ :
 
 ## 6. Votre Speech de 1 Minute (Séance 4) 🎤
 
-> *"Bonjour à tous. Dans le cadre de notre projet OmniShop, j’ai pris en charge la conception et la mise en œuvre du microservice central **Identity & Access Service**.*
+> *"Bonjour à tous. Dans le cadre de notre projet de plateforme SaaS All-in-One, j’ai pris en charge la conception et la mise en œuvre du microservice central **Identity & Access Service**.*
 >
 > *Notre mission consiste à sécuriser l'accès à la plateforme tout en offrant un parcours utilisateur fluide. Pour cela, le service prend en charge à la fois l'authentification locale sécurisée et la fédération via **OAuth2 et OpenID Connect**, permettant une connexion rapide via Google ou GitHub.*
 >

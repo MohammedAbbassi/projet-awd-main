@@ -148,3 +148,4 @@ Svc_Ops --> Ext_Shipping : Bordereaux d'expédition
 Svc_Marketing --> Ext_Social : Publications de contenu
 
 @enduml
+

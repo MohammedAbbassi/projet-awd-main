@@ -17,7 +17,7 @@ skinparam usecase {
 actor "Client (Acheteur)" as Client
 actor "Marchand" as Marchand
 
-rectangle "Plateforme OmniShop" {
+rectangle "Plateforme SaaS All-in-One" {
   package "Espace Client" {
     usecase "Rechercher des produits" as UC_Search
     usecase "Gérer son panier" as UC_Cart
