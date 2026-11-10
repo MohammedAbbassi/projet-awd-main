@@ -94,7 +94,7 @@
 
 ---
 
-### Slide 8 : 🌟 PARTIE INDIVIDUELLE — Membre 1 (1 minute chrono)
+### Slide 8 : PARTIE INDIVIDUELLE — Membre 1 (1 minute chrono)
 **Périmètre :** `Identity & Access Service` (+ Architecture & API Gateway)  
 **Visuels projetés :** `class_diagram_auth_service.png` & `sequence_auth_flow.png`
 

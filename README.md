@@ -5,7 +5,7 @@ Une plateforme web SaaS B2B/B2C tout-en-un destinée aux personnes souhaitant la
 
 ---
 
-## 👥 Répartition de l'Équipe & Responsabilités
+## Répartition de l'Équipe & Responsabilités
 
 | Membre | Pôle & Microservices | Responsabilités Clés |
 | :--- | :--- | :--- |
@@ -16,7 +16,7 @@ Une plateforme web SaaS B2B/B2C tout-en-un destinée aux personnes souhaitant la
 
 ---
 
-## 📐 Architecture Globale du Système
+## Architecture Globale du Système
 
 L'architecture suit le principe **Database per Service**, avec un point d'entrée unique via l'**API Gateway** et un bus d'événements asynchrones (**RabbitMQ / Kafka**) pour le découplage entre services :
 
@@ -24,7 +24,7 @@ L'architecture suit le principe **Database per Service**, avec un point d'entré
 
 ---
 
-## 🗂️ Organisation Générale du Dépôt Git
+## Organisation Générale du Dépôt Git
 
 ```
 projet-awd-main/
@@ -56,7 +56,7 @@ projet-awd-main/
 
 ---
 
-## 🔄 Workflow Git
+## Workflow Git
 
 - **`main`** : Version stable et présentable.
 - **`develop`** : Intégration des fonctionnalités validées.
@@ -66,9 +66,9 @@ projet-awd-main/
 
 ---
 
-## 📄 Livrables de la Séance 4
+## Livrables de la Séance 4
 
-- 🏗️ **Diagramme d'Architecture Globale :** [`Documentation/Diagrams/architecture_globale.png`](Documentation/Diagrams/architecture_globale.png)
-- 📋 **Dossier Technique Global :** [`Documentation/Dossier_Technique.md`](Documentation/Dossier_Technique.md)
-- 📊 **Diagramme de Cas d'Utilisation :** [`Documentation/Diagramme_Cas_Utilisation.pdf`](Documentation/Diagramme_Cas_Utilisation.pdf)
-- 🖥️ **Support de Présentation :** [`Documentation/Presentation/presentation_seance_4.md`](Documentation/Presentation/presentation_seance_4.md)
+- **Diagramme d'Architecture Globale :** [`Documentation/Diagrams/architecture_globale.png`](Documentation/Diagrams/architecture_globale.png)
+- **Dossier Technique Global :** [`Documentation/Dossier_Technique.md`](Documentation/Dossier_Technique.md)
+- **Diagramme de Cas d'Utilisation :** [`Documentation/Diagramme_Cas_Utilisation.pdf`](Documentation/Diagramme_Cas_Utilisation.pdf)
+- **Support de Présentation :** [`Documentation/Presentation/presentation_seance_4.md`](Documentation/Presentation/presentation_seance_4.md)

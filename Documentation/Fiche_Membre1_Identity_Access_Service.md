@@ -129,7 +129,7 @@ Le service publie des événements métiers diffusés via RabbitMQ :
 
 ---
 
-## 6. Votre Speech de 1 Minute (Séance 4) 🎤
+## 6. Votre Speech de 1 Minute (Séance 4)
 
 > *"Bonjour à tous. Dans le cadre de notre projet de plateforme SaaS All-in-One, j’ai pris en charge la conception et la mise en œuvre du microservice central **Identity & Access Service**.*
 >
